@@ -5,6 +5,31 @@ body {
   font-family: Arial;
 }
 
+/* LOGIN */
+.login-screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.login-box input {
+  padding: 10px;
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+/* APP */
 .topbar {
   height: 50px;
   background: #1c1c1c;
@@ -40,7 +65,7 @@ body {
   max-height: 100%;
 }
 
-/* Mobile */
+/* MOBILE */
 @media (max-width: 768px) {
   .main {
     flex-direction: column;
@@ -48,7 +73,6 @@ body {
 
   .left, .right {
     width: 100%;
-    height: auto;
   }
 
   .canvas-area {

@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FASCM Studio PRO</title>
@@ -13,6 +12,18 @@
 </head>
 
 <body>
+
+<!-- 🔐 LOGIN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <h2>FASCM Studio</h2>
+    <input type="password" id="passwordInput" placeholder="Enter Password">
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+</div>
+
+<!-- 🚀 APP -->
+<div id="app" style="display:none;">
 
 <div class="topbar">
   <h2>FASCM Studio</h2>
@@ -25,17 +36,25 @@
 
 <div class="main">
 
+  <!-- LEFT PANEL -->
   <div class="left">
+    <h3>Templates</h3>
+    <button onclick="loadTemplate1()">Poster 1</button>
+    <button onclick="loadTemplate2()">Poster 2</button>
+
+    <h3>Tools</h3>
     <button onclick="addText()">Text</button>
     <button onclick="addRect()">Rectangle</button>
   </div>
 
+  <!-- CANVAS -->
   <div class="canvas-area">
     <div class="canvas-box">
       <canvas id="canvas"></canvas>
     </div>
   </div>
 
+  <!-- RIGHT PANEL -->
   <div class="right">
     <label>Color</label>
     <input type="color" onchange="changeColor(this.value)">
@@ -45,6 +64,8 @@
 
     <button onclick="deleteObj()">Delete</button>
   </div>
+
+</div>
 
 </div>
 
