@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FASCM - Pro Editor</title>
+    <title>FASCM - Pro Studio</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
@@ -14,21 +14,21 @@
 
     <div class="app-wrapper">
         <nav class="top-nav">
-            <div class="brand">FASCM <span>Pro</span></div>
-            <div class="undo-redo-group">
-                <button class="nav-icon-btn" onclick="undo()" title="Undo">↩</button>
-                <button class="nav-icon-btn" onclick="redo()" title="Redo">↪</button>
+            <div class="brand">FASCM <span>Studio</span></div>
+            <div class="undo-redo-container">
+                <button class="icon-btn" onclick="undo()">↩</button>
+                <button class="icon-btn" onclick="redo()">↪</button>
             </div>
             <div class="actions">
                 <button class="btn share-btn" onclick="shareDesign()">Share</button>
-                <button class="btn download-btn" onclick="downloadDesign()">Download</button>
+                <button class="btn download-btn" onclick="downloadDesign()">Export</button>
             </div>
         </nav>
 
-        <div class="editor-container">
+        <div class="editor-container" style="display: flex;">
             <aside class="left-panel">
                 <section class="section">
-                    <h4>Templates</h4>
+                    <h4>Collections</h4>
                     <div class="template-grid">
                         <img src="images/1.png" onclick="setTemplate(this.src)" class="thumb">
                         <img src="images/2.png" onclick="setTemplate(this.src)" class="thumb">
@@ -38,27 +38,27 @@
                 </section>
 
                 <section class="section">
-                    <h4>Tools</h4>
+                    <h4>Quick Tools</h4>
                     <div class="tool-group">
-                        <button class="tool-btn" onclick="document.getElementById('upload').click()">+ Photo</button>
+                        <button class="tool-btn" onclick="document.getElementById('upload').click()">Media</button>
                         <input type="file" id="upload" accept="image/*" hidden>
-                        <button class="tool-btn" onclick="addText()">+ Text</button>
+                        <button class="tool-btn" onclick="addText()">Text</button>
                     </div>
                 </section>
 
                 <div id="objControls" class="section" style="display: none;">
-                    <h4>Edit Layer</h4>
-                    <div class="control-row">
-                        <button class="small-btn" onclick="bringForward()">Layer Up</button>
-                        <button class="small-btn" onclick="sendBackward()">Layer Down</button>
+                    <h4>Properties</h4>
+                    <div style="display:flex; gap:5px;">
+                        <button class="sm-btn" onclick="bringForward()">↑ Forward</button>
+                        <button class="sm-btn" onclick="sendBackward()">↓ Backward</button>
                     </div>
-                    <div class="control-row" style="margin-top:10px;">
-                        <label>Opacity:</label>
-                        <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
+                    <div style="margin-top:15px;">
+                        <span style="font-size:11px; color:#888;">OPACITY</span>
+                        <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)" style="width:100%; margin-top:5px;">
                     </div>
-                    <div id="palette" class="palette" style="margin-top:10px;"></div>
-                    <input type="color" id="customColor">
-                    <button class="delete-btn" onclick="deleteObj()">Delete</button>
+                    <div id="palette" class="palette" style="margin-top:20px;"></div>
+                    <input type="color" id="customColor" style="width:100%; border:none; background:none; height:40px; cursor:pointer;">
+                    <button class="delete-btn" onclick="deleteObj()">Remove Element</button>
                 </div>
             </aside>
 
@@ -67,16 +67,6 @@
                     <canvas id="mainCanvas"></canvas>
                 </div>
             </main>
-        </div>
-    </div>
-
-    <div id="cropBox" class="modal">
-        <div class="modal-inner">
-            <div class="crop-area"><img id="cropImg"></div>
-            <div class="modal-btns">
-                <button class="btn cancel-btn" onclick="document.getElementById('cropBox').style.display='none'">Cancel</button>
-                <button class="btn download-btn" onclick="confirmCrop()">Apply Crop</button>
-            </div>
         </div>
     </div>
 

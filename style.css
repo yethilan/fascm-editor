@@ -1,50 +1,146 @@
-:root { --accent: #0078d4; --bg: #f0f2f5; }
-body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); overflow: hidden; }
+:root { 
+    --accent: #7d2ae8; /* Microsoft Designer போன்ற ஒரு பர்பிள் ஷேட் */
+    --bg-dark: #1e1e1e; /* டார் க்ரே பேக்ரவுண்ட் */
+    --panel-bg: #2d2d2d; 
+    --white: #ffffff;
+    --text-muted: #a0a0a0;
+}
 
-.top-nav { height: 60px; background: white; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 1px solid #ddd; }
-.brand { font-weight: 800; font-size: 20px; }
+body { 
+    font-family: 'Inter', 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background: var(--bg-dark); 
+    color: var(--white);
+    overflow: hidden; 
+}
+
+/* Top Nav - Clean & Sleek */
+.top-nav { 
+    height: 65px; 
+    background: #121212; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 25px; 
+    border-bottom: 1px solid #333; 
+}
+
+.brand { font-weight: 700; font-size: 22px; color: var(--white); }
 .brand span { color: var(--accent); }
 
-.undo-redo-group { display: flex; gap: 15px; }
-.nav-icon-btn { background: none; border: 1px solid #ddd; border-radius: 4px; padding: 5px 12px; cursor: pointer; font-size: 18px; transition: 0.2s; }
-.nav-icon-btn:hover { background: #f0f0f0; border-color: var(--accent); }
+/* Undo/Redo - Floating Icons */
+.undo-redo-container { display: flex; gap: 8px; }
+.icon-btn { 
+    background: #333; 
+    border: none; 
+    color: white; 
+    border-radius: 8px; 
+    padding: 8px 16px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: 0.3s;
+}
+.icon-btn:hover { background: var(--accent); }
 
-.editor-container { display: flex; height: calc(100vh - 60px); }
-.left-panel { width: 280px; background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; }
+/* Side Panel - Dark Theme */
+.left-panel { 
+    width: 320px; 
+    background: var(--panel-bg); 
+    padding: 20px; 
+    border-right: 1px solid #333; 
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+}
 
-.section h4 { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 10px; }
-.control-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-.small-btn { padding: 6px 10px; border-radius: 4px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 11px; }
+.section h4 { 
+    font-size: 12px; 
+    color: var(--text-muted); 
+    text-transform: uppercase; 
+    margin-bottom: 15px; 
+    letter-spacing: 1.2px; 
+}
 
-.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.thumb { width: 100%; border-radius: 6px; cursor: pointer; border: 2px solid transparent; }
-.thumb:hover { border-color: var(--accent); }
+.template-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    margin-bottom: 30px; 
+}
+.thumb { 
+    width: 100%; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    border: 2px solid transparent; 
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+.thumb:hover { 
+    border-color: var(--accent); 
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 
-.tool-group { display: flex; gap: 8px; }
-.tool-btn { flex: 1; padding: 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.tool-group { display: flex; gap: 12px; margin-bottom: 30px; }
+.tool-btn { 
+    flex: 1; 
+    padding: 14px; 
+    background: #3d3d3d; 
+    border: 1px solid #444; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    color: white; 
+    font-weight: 600;
+    transition: 0.2s;
+}
+.tool-btn:hover { background: var(--accent); border-color: var(--accent); }
 
-.canvas-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: #e0e4e7; overflow: auto; }
-.canvas-shadow-box { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 2px; }
+/* Canvas Area - Floating Designer Board */
+.canvas-viewport { 
+    flex-grow: 1; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 60px; 
+    background: #181818; /* எடிட்டிங் ஏரியா இருட்டாக இருக்கும் */
+    overflow: auto;
+    position: relative;
+}
 
-.palette { display: flex; flex-wrap: wrap; gap: 6px; }
-.swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 1px solid #eee; }
+.canvas-shadow-box { 
+    background: white; 
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5); /* ஆழமான நிழல் (Deep Shadow) */
+    border-radius: 4px;
+    transform: scale(0.9); /* லேசாகச் சிறியதாகத் தொடங்கி ஜூம் ஆகும் */
+}
 
-.btn { padding: 8px 16px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
-.download-btn { background: var(--accent); color: white; }
-.share-btn { background: #25d366; color: white; margin-right: 5px; }
-.delete-btn { width: 100%; margin-top: 15px; padding: 10px; background: #fff1f0; color: #ff4d4f; border: 1px solid #ffccc7; border-radius: 6px; cursor: pointer; }
+/* Edit Controls - Context Menu Style */
+#objControls { 
+    background: #333; 
+    padding: 20px; 
+    border-radius: 15px; 
+    border: 1px solid #444; 
+    margin-top: 20px; 
+}
 
-/* Modal */
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; }
-.modal-inner { background: white; width: 95%; max-width: 450px; height: 80vh; margin: 5vh auto; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
-.crop-area { flex: 1; background: #000; }
-.modal-btns { padding: 15px; display: flex; justify-content: space-between; }
+.sm-btn { 
+    background: #444; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 8px; 
+    flex: 1; 
+    margin: 5px; 
+    cursor: pointer;
+}
 
+/* Buttons */
+.btn { padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.download-btn { background: var(--accent); color: white; border: none; }
+.download-btn:hover { background: #6a24c5; box-shadow: 0 5px 15px rgba(125, 42, 232, 0.4); }
+.share-btn { background: #00c853; color: white; border: none; margin-right: 10px; }
+
+/* Responsive */
 @media (max-width: 768px) {
     .editor-container { flex-direction: column; }
-    .left-panel { width: 100%; height: auto; border-bottom: 1px solid #eee; }
-    .template-grid { display: flex; overflow-x: auto; }
-    .thumb { width: 70px; flex-shrink: 0; }
-    .canvas-viewport { padding: 10px; align-items: flex-start; }
-    .undo-redo-group { gap: 5px; }
+    .left-panel { width: 100%; height: auto; border-right: none; }
+    .canvas-viewport { padding: 20px; align-items: flex-start; }
 }
