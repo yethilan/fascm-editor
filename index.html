@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FASCM Studio - Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&family=Hind+Madurai:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Hind+Madurai:wght@400;700&family=Montserrat:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
 </head>
 <body>
 
-    <div class="app-wrapper">
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <div class="brand">FASCM <span>Studio</span></div>
+            <h2>Welcome Back</h2>
+            <p>Enter your access code to start designing</p>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="Access Code">
+                <button class="login-btn" onclick="checkAuth()">Login</button>
+            </div>
+            <p id="error-msg" class="error"></p>
+        </div>
+    </div>
+
+    <div id="app-screen" class="app-wrapper" style="display: none;">
         <nav class="top-nav">
             <div class="brand">FASCM <span>Studio</span></div>
             <div class="undo-redo">
@@ -35,7 +48,6 @@
                         <img src="images/4.png" onclick="setTemplate(this.src)" class="thumb">
                     </div>
                 </section>
-
                 <section class="panel-section">
                     <h4>Add Elements</h4>
                     <div class="tool-row">
@@ -44,32 +56,21 @@
                         <button class="tool-btn" onclick="addText()">+ Text</button>
                     </div>
                 </section>
-                
-                <div id="sidebarControls" class="panel-section">
-                    <h4>Document Info</h4>
-                    <p style="font-size: 12px; color: #65676b;">Select an element to edit properties.</p>
-                </div>
             </aside>
 
             <main class="viewport" id="viewportArea">
                 <div id="floating-toolbar" class="floating-menu" style="display: none;">
                     <select id="fontFamily" class="float-select" onchange="changeFont(this.value)">
                         <option value="Inter">Default</option>
-                        <option value="Hind Madurai">Tamil (Hind)</option>
+                        <option value="Hind Madurai">Tamil</option>
                         <option value="Montserrat">Montserrat</option>
-                        <option value="Playfair Display">Elegant</option>
-                        <option value="Dancing Script">Handwriting</option>
-                        <option value="Lato">Lato Bold</option>
+                        <option value="Dancing Script">Stylish</option>
                     </select>
                     <div class="v-line"></div>
-                    <input type="color" id="floatColor" class="float-color" title="Change Color">
-                    <div class="v-line"></div>
-                    <button class="float-btn" onclick="bringForward()" title="Layer Up">↑</button>
-                    <button class="float-btn" onclick="sendBackward()" title="Layer Down">↓</button>
-                    <div class="v-line"></div>
-                    <button class="float-btn del" onclick="deleteObj()" title="Delete">🗑</button>
+                    <div id="palette-container" class="palette-row"></div>
+                    <input type="color" id="floatColor" class="float-color" title="Custom Color">
+                    <button class="float-btn del" onclick="deleteObj()">🗑</button>
                 </div>
-
                 <div id="canvas-wrapper" class="canvas-wrapper">
                     <canvas id="mainCanvas"></canvas>
                 </div>
