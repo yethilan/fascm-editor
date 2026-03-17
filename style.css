@@ -1,146 +1,91 @@
 :root { 
-    --accent: #7d2ae8; /* Microsoft Designer போன்ற ஒரு பர்பிள் ஷேட் */
-    --bg-dark: #1e1e1e; /* டார் க்ரே பேக்ரவுண்ட் */
-    --panel-bg: #2d2d2d; 
+    --accent: #8b3dff; /* Canva Purple */
+    --bg-main: #18191b; /* Dark background */
+    --panel-bg: #252627; /* Panel color */
     --white: #ffffff;
-    --text-muted: #a0a0a0;
+    --border: #393a3b;
 }
 
 body { 
     font-family: 'Inter', 'Segoe UI', sans-serif; 
     margin: 0; 
-    background: var(--bg-dark); 
+    background: var(--bg-main); 
     color: var(--white);
     overflow: hidden; 
 }
 
-/* Top Nav - Clean & Sleek */
 .top-nav { 
-    height: 65px; 
-    background: #121212; 
+    height: 56px; 
+    background: #0e0e0f; 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    padding: 0 25px; 
-    border-bottom: 1px solid #333; 
+    padding: 0 20px; 
+    border-bottom: 1px solid var(--border);
 }
 
-.brand { font-weight: 700; font-size: 22px; color: var(--white); }
+.brand { font-weight: 800; font-size: 18px; color: var(--white); }
 .brand span { color: var(--accent); }
 
-/* Undo/Redo - Floating Icons */
-.undo-redo-container { display: flex; gap: 8px; }
-.icon-btn { 
-    background: #333; 
-    border: none; 
-    color: white; 
-    border-radius: 8px; 
-    padding: 8px 16px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    transition: 0.3s;
-}
-.icon-btn:hover { background: var(--accent); }
+.editor-container { display: flex; height: calc(100vh - 56px); }
 
-/* Side Panel - Dark Theme */
+/* Left Panel - Premium Style */
 .left-panel { 
-    width: 320px; 
+    width: 300px; 
     background: var(--panel-bg); 
+    border-right: 1px solid var(--border); 
     padding: 20px; 
-    border-right: 1px solid #333; 
-    height: calc(100vh - 65px);
+    display: flex; 
+    flex-direction: column;
     overflow-y: auto;
 }
 
-.section h4 { 
-    font-size: 12px; 
-    color: var(--text-muted); 
-    text-transform: uppercase; 
-    margin-bottom: 15px; 
-    letter-spacing: 1.2px; 
-}
+.section h4 { font-size: 11px; color: #a0a0a0; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
 
-.template-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 12px; 
-    margin-bottom: 30px; 
-}
-.thumb { 
-    width: 100%; 
-    border-radius: 10px; 
-    cursor: pointer; 
-    border: 2px solid transparent; 
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-}
-.thumb:hover { 
-    border-color: var(--accent); 
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
+.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+.thumb { width: 100%; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+.thumb:hover { border-color: var(--accent); transform: scale(1.03); }
 
-.tool-group { display: flex; gap: 12px; margin-bottom: 30px; }
+.tool-group { display: flex; gap: 10px; margin-bottom: 25px; }
 .tool-btn { 
-    flex: 1; 
-    padding: 14px; 
-    background: #3d3d3d; 
-    border: 1px solid #444; 
-    border-radius: 12px; 
-    cursor: pointer; 
-    color: white; 
-    font-weight: 600;
-    transition: 0.2s;
+    flex: 1; padding: 12px; background: #393a3b; border: none; 
+    border-radius: 8px; color: white; font-weight: 600; cursor: pointer; 
 }
-.tool-btn:hover { background: var(--accent); border-color: var(--accent); }
+.tool-btn:hover { background: var(--accent); }
 
-/* Canvas Area - Floating Designer Board */
+/* Properties Panel */
+#objControls { background: #1e1e1f; padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+.sm-btn { background: #393a3b; color: white; border: none; padding: 8px; border-radius: 6px; flex: 1; cursor: pointer; font-size: 12px; }
+
+/* Canvas Area - The Floating Board */
 .canvas-viewport { 
     flex-grow: 1; 
+    background: var(--bg-main); 
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    padding: 60px; 
-    background: #181818; /* எடிட்டிங் ஏரியா இருட்டாக இருக்கும் */
-    overflow: auto;
+    padding: 40px; 
+    overflow: auto; 
     position: relative;
 }
 
 .canvas-shadow-box { 
     background: white; 
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5); /* ஆழமான நிழல் (Deep Shadow) */
-    border-radius: 4px;
-    transform: scale(0.9); /* லேசாகச் சிறியதாகத் தொடங்கி ஜூம் ஆகும் */
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6); 
+    display: inline-block;
+    line-height: 0;
 }
 
-/* Edit Controls - Context Menu Style */
-#objControls { 
-    background: #333; 
-    padding: 20px; 
-    border-radius: 15px; 
-    border: 1px solid #444; 
-    margin-top: 20px; 
-}
-
-.sm-btn { 
-    background: #444; 
-    color: white; 
-    border: none; 
-    padding: 10px; 
-    border-radius: 8px; 
-    flex: 1; 
-    margin: 5px; 
-    cursor: pointer;
-}
-
-/* Buttons */
-.btn { padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.download-btn { background: var(--accent); color: white; border: none; }
-.download-btn:hover { background: #6a24c5; box-shadow: 0 5px 15px rgba(125, 42, 232, 0.4); }
-.share-btn { background: #00c853; color: white; border: none; margin-right: 10px; }
-
-/* Responsive */
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     .editor-container { flex-direction: column; }
-    .left-panel { width: 100%; height: auto; border-right: none; }
-    .canvas-viewport { padding: 20px; align-items: flex-start; }
+    .left-panel { width: 100%; height: auto; order: 2; padding: 15px; }
+    .canvas-viewport { order: 1; height: 60vh; padding: 10px; }
+    .template-grid { display: flex; overflow-x: auto; }
+    .thumb { width: 80px; flex-shrink: 0; }
 }
+
+.btn { padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; }
+.download-btn { background: var(--accent); color: white; }
+.share-btn { background: #25d366; color: white; margin-right: 8px; }
+.delete-btn { width: 100%; margin-top: 15px; background: #ff4d4f22; color: #ff4d4f; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; border: 1px solid #ff4d4f44; }
