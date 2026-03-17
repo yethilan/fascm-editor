@@ -1,0 +1,34 @@
+:root { --accent: #0078d4; --bg: #f4f7f6; }
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); overflow: hidden; }
+
+.top-nav { height: 60px; background: white; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 1px solid #ddd; }
+.brand { font-weight: bold; font-size: 20px; }
+.brand span { color: var(--accent); }
+
+.editor-container { display: flex; height: calc(100vh - 60px); }
+.left-panel { width: 260px; background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; }
+
+.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.thumb { width: 100%; border-radius: 4px; cursor: pointer; aspect-ratio: 1; object-fit: cover; border: 2px solid transparent; }
+.thumb:hover { border-color: var(--accent); }
+
+.tool-group { display: flex; gap: 10px; }
+.tool-btn { flex: 1; padding: 12px; background: #eee; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+
+.canvas-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; overflow: hidden; }
+.canvas-shadow-box { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform-origin: center center; }
+
+.palette { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 1px solid #ccc; }
+
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; padding: 20px; }
+.modal-inner { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 8px; }
+
+/* Mobile View Optimizations */
+@media (max-width: 768px) {
+    .editor-container { flex-direction: column; }
+    .left-panel { width: 100%; height: auto; display: block; border-right: none; border-bottom: 1px solid #ddd; }
+    .template-grid { display: flex; overflow-x: auto; padding-bottom: 10px; }
+    .thumb { width: 80px; flex-shrink: 0; }
+    .canvas-viewport { padding: 10px; align-items: flex-start; }
+}
