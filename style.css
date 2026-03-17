@@ -1,64 +1,57 @@
-:root { 
-    --accent: #8b3dff; 
-    --bg-dark: #121213; 
-    --panel-bg: #1e1e1f; 
-    --border: #333;
+body {
+  margin: 0;
+  background: #111;
+  color: white;
+  font-family: Arial;
 }
 
-body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-dark); color: white; overflow: hidden; }
-
-.top-nav { height: 50px; background: #000; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; border-bottom: 1px solid var(--border); }
-.brand { font-weight: 800; font-size: 16px; }
-
-.editor-container { display: flex; height: calc(100vh - 50px); width: 100vw; }
-
-/* Side Panel - Slim & Modern */
-.left-panel { 
-    width: 260px; 
-    min-width: 260px;
-    background: var(--panel-bg); 
-    padding: 15px; 
-    border-right: 1px solid var(--border);
-    overflow-y: auto;
+.topbar {
+  height: 50px;
+  background: #1c1c1c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
-.section h4 { font-size: 10px; color: #777; text-transform: uppercase; margin-bottom: 12px; }
-
-.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-.thumb { width: 100%; border-radius: 6px; cursor: pointer; border: 2px solid transparent; }
-.thumb:hover { border-color: var(--accent); }
-
-.tool-group { display: flex; gap: 8px; margin-bottom: 20px; }
-.tool-btn { flex: 1; padding: 10px; background: #2d2d2e; border: 1px solid #3d3d3e; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; font-size: 13px; }
-
-/* கேன்வாஸ் ஏரியாவை முழுமையாகப் பயன்படுத்துதல் */
-.canvas-viewport { 
-    flex-grow: 1; 
-    background: #000; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    overflow: hidden; /* ஸ்க்ரோலைத் தடுத்து ஃபிட் செய்கிறது */
-    padding: 20px;
+.main {
+  display: flex;
+  height: calc(100vh - 50px);
 }
 
-.canvas-shadow-box { 
-    background: white; 
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    display: block;
+.left, .right {
+  width: 180px;
+  background: #1a1a1a;
+  padding: 10px;
 }
 
-#objControls { background: #2d2d2e; padding: 12px; border-radius: 8px; margin-top: 10px; }
-.sm-btn { background: #3d3d3e; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; margin: 2px; cursor: pointer; font-size: 11px; }
+.canvas-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-/* Mobile View */
+.canvas-box {
+  background: white;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-    .editor-container { flex-direction: column; }
-    .left-panel { width: 100%; height: auto; order: 2; padding: 10px; border-right: none; border-top: 1px solid var(--border); }
-    .canvas-viewport { order: 1; height: 55vh; padding: 10px; }
-    .template-grid { display: flex; overflow-x: auto; }
-    .thumb { width: 70px; }
-}
+  .main {
+    flex-direction: column;
+  }
 
-.btn { padding: 6px 14px; border-radius: 4px; font-weight: 700; cursor: pointer; border: none; font-size: 13px; }
-.download-btn { background: var(--accent); color: white; }
+  .left, .right {
+    width: 100%;
+    height: auto;
+  }
+
+  .canvas-area {
+    height: 60vh;
+  }
+}
