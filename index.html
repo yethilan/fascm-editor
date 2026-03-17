@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>FASCM - Pro Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
@@ -44,6 +45,16 @@
 
                 <div id="objControls" class="section" style="display: none;">
                     <h4>Edit Layer</h4>
+                    <label>Font Style:</label>
+                    <select id="fontFamily" class="font-select" onchange="changeFont(this.value)">
+                        <option value="Arial">Default (Arial)</option>
+                        <option value="Roboto" style="font-family: 'Roboto';">Roboto (Clean)</option>
+                        <option value="Montserrat" style="font-family: 'Montserrat';">Montserrat (Bold)</option>
+                        <option value="Playfair Display" style="font-family: 'Playfair Display';">Playfair (Elegant)</option>
+                        <option value="Dancing Script" style="font-family: 'Dancing Script';">Handwriting (Script)</option>
+                    </select>
+                    
+                    <label>Color:</label>
                     <div id="palette" class="palette"></div>
                     <input type="color" id="customColor">
                     <button class="delete-btn" onclick="deleteObj()">Delete</button>
@@ -51,7 +62,7 @@
             </aside>
 
             <main class="canvas-viewport">
-                <div class="canvas-shadow-box">
+                <div class="canvas-shadow-box" id="canvas-container">
                     <canvas id="mainCanvas"></canvas>
                 </div>
             </main>

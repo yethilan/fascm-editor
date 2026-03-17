@@ -1,52 +1,66 @@
 :root { --accent: #0078d4; --bg: #f0f2f5; }
-body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); overflow: hidden; touch-action: manipulation; }
+body { 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    margin: 0; 
+    background: var(--bg); 
+    overflow: hidden; 
+    /* மொபைலில் தானாக ஜூம் ஆவதைத் தடுக்க */
+    touch-action: pan-x pan-y; 
+}
 
-input, textarea, [contenteditable] { font-size: 16px !important; }
+/* 16px-க்கு மேல் இருந்தால் தான் ஐபோன் ஜூம் செய்யாது */
+input, textarea, select, [contenteditable] { 
+    font-size: 16px !important; 
+    outline: none;
+}
 
-.top-nav { height: 60px; background: white; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.top-nav { height: 60px; background: white; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 1px solid #ddd; }
 .brand { font-weight: 800; font-size: 22px; color: #333; }
 .brand span { color: var(--accent); }
 
-/* லேப்டாப் லேஅவுட் - Default View */
 .editor-container { display: flex; height: calc(100vh - 60px); }
-.left-panel { width: 300px; min-width: 300px; background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; z-index: 10; height: 100%; }
+.left-panel { width: 280px; min-width: 280px; background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; z-index: 10; }
 
-.section h4 { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+.section h4 { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+.font-select { width: 100%; padding: 10px; margin: 10px 0 20px; border-radius: 6px; border: 1px solid #ddd; }
+
 .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.thumb { width: 100%; border-radius: 8px; cursor: pointer; aspect-ratio: 1; object-fit: cover; border: 2px solid transparent; transition: 0.2s; }
-.thumb:hover { border-color: var(--accent); transform: scale(1.02); }
+.thumb { width: 100%; border-radius: 8px; cursor: pointer; aspect-ratio: 1; object-fit: cover; border: 2px solid transparent; }
 
-.tool-group { display: flex; gap: 10px; margin-bottom: 20px; }
-.tool-btn { flex: 1; padding: 12px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; font-weight: 700; color: #444; }
+/* Canva போன்ற ஸ்டேபிள் வியூ */
+.canvas-viewport { 
+    flex-grow: 1; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 50px; 
+    overflow: auto; /* ஸ்க்ரோல் செய்ய அனுமதிக்கும் */
+    background: #cbd5e0;
+    position: relative;
+}
 
-.canvas-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; overflow: auto; position: relative; transition: padding-bottom 0.3s ease; background: #e0e4e7; }
-.canvas-shadow-box { background: white; box-shadow: 0 10px 40px rgba(0,0,0,0.15); transform-origin: center center; }
+.canvas-shadow-box { 
+    background: white; 
+    box-shadow: 0 10px 50px rgba(0,0,0,0.3); 
+    transition: transform 0.2s ease;
+    /* இங்கிருந்து தான் யூசர் ஜூம் செய்யலாம் */
+}
 
 canvas { touch-action: none; user-select: none; }
 
 .palette { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-.swatch { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 1px solid #eee; transition: 0.1s; }
-.swatch:hover { transform: scale(1.1); border-color: var(--accent); }
+.swatch { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 1px solid #eee; }
 
-.btn { padding: 10px 18px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; }
+.btn { padding: 10px 18px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; }
 .download-btn { background: var(--accent); color: white; }
-.share-btn { background: #25d366; color: white; margin-right: 5px; }
-.cancel-btn { background: #666; color: white; }
-.delete-btn { width: 100%; padding: 12px; background: #fff1f0; color: #ff4d4f; border: 1px solid #ffccc7; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.share-btn { background: #25d366; color: white; }
+.delete-btn { width: 100%; padding: 12px; background: #fff1f0; color: #ff4d4f; border: 1px solid #ffccc7; border-radius: 6px; cursor: pointer; margin-top: 10px; }
 
-/* Modal */
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; padding: 10px; }
-.modal-inner { background: white; width: 100%; max-width: 500px; height: 85vh; margin: auto; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; }
-.crop-area { flex-grow: 1; background: #000; position: relative; }
-.modal-btns { padding: 15px; display: flex; justify-content: space-between; background: #f8f9fa; }
-
-/* மொபைல் மட்டும் பாதிக்கும் வகையில் Media Query */
+/* Responsive */
 @media (max-width: 768px) {
     .editor-container { flex-direction: column; }
-    .left-panel { width: 100%; min-width: 100%; height: auto; border-right: none; border-bottom: 1px solid #eee; }
-    .template-grid { display: flex; overflow-x: auto; padding-bottom: 10px; grid-template-columns: none; }
-    .thumb { width: 80px; height: 80px; flex-shrink: 0; }
-    .canvas-viewport { padding: 10px; align-items: flex-start; min-height: 400px; }
-    .top-nav { padding: 0 10px; }
-    .brand { font-size: 18px; }
+    .left-panel { width: 100%; height: auto; border-bottom: 1px solid #eee; }
+    .template-grid { display: flex; overflow-x: auto; }
+    .thumb { width: 70px; flex-shrink: 0; }
+    .canvas-viewport { padding: 20px; align-items: flex-start; }
 }
