@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FASCM - Digital Editor</title>
+    <title>FASCM - Pro Editor</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
@@ -62,7 +61,10 @@
     <div id="cropBox" class="modal">
         <div class="modal-inner">
             <div class="crop-area"><img id="cropImg"></div>
-            <button class="btn download-btn" onclick="confirmCrop()">Apply Crop</button>
+            <div class="modal-btns">
+                <button class="btn cancel-btn" onclick="document.getElementById('cropBox').style.display='none'">Cancel</button>
+                <button class="btn download-btn" onclick="confirmCrop()">Apply Crop</button>
+            </div>
         </div>
     </div>
 
