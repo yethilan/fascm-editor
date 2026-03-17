@@ -1,3 +1,28 @@
+// 1. காலேஜ் மாணவர்களுக்கான பாஸ்வேர்டு பாதுகாப்பு
+const ACCESS_CODE = "FASCM@2026"; // உங்களுக்கு பிடித்த பாஸ்வேர்டை இங்கே மாற்றிக்கொள்ளுங்கள்
+
+function verifyUser() {
+    const userInput = prompt("FASCM எடிட்டரைப் பயன்படுத்த Access Code-ஐ உள்ளிடவும்:");
+    
+    if (userInput === ACCESS_CODE) {
+        alert("அனுமதி வழங்கப்பட்டது! வருக.");
+        // பாஸ்வேர்டு சரியானால் மட்டும் முதல் டெம்ப்ளேட்டை லோட் செய்யும்
+        setTemplate('images/1.png');
+    } else {
+        alert("தவறான கோடு! உங்களுக்கு அனுமதி இல்லை.");
+        // பாஸ்வேர்டு தவறென்றால் பக்கத்தை காலியாக்கிவிடும்
+        document.body.innerHTML = `
+            <div style="text-align:center; margin-top:100px; font-family:sans-serif;">
+                <h1 style="color:red;">Access Denied</h1>
+                <p>சரியான Access Code பெற காலேஜ் அட்மினை அணுகவும்.</p>
+                <button onclick="location.reload()" style="padding:10px 20px; cursor:pointer;">மீண்டும் முயற்சி செய்</button>
+            </div>
+        `;
+    }
+}
+
+// பக்கம் லோடு ஆனவுடன் பாஸ்வேர்டு கேட்கும்
+window.onload = verifyUser;
 const canvas = new fabric.Canvas('mainCanvas', { 
     preserveObjectStacking: true, 
     renderOnAddRemove: false,
