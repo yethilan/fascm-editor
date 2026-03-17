@@ -1,91 +1,64 @@
 :root { 
-    --accent: #8b3dff; /* Canva Purple */
-    --bg-main: #18191b; /* Dark background */
-    --panel-bg: #252627; /* Panel color */
-    --white: #ffffff;
-    --border: #393a3b;
+    --accent: #8b3dff; 
+    --bg-dark: #121213; 
+    --panel-bg: #1e1e1f; 
+    --border: #333;
 }
 
-body { 
-    font-family: 'Inter', 'Segoe UI', sans-serif; 
-    margin: 0; 
-    background: var(--bg-main); 
-    color: var(--white);
-    overflow: hidden; 
-}
+body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-dark); color: white; overflow: hidden; }
 
-.top-nav { 
-    height: 56px; 
-    background: #0e0e0f; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 20px; 
-    border-bottom: 1px solid var(--border);
-}
+.top-nav { height: 50px; background: #000; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; border-bottom: 1px solid var(--border); }
+.brand { font-weight: 800; font-size: 16px; }
 
-.brand { font-weight: 800; font-size: 18px; color: var(--white); }
-.brand span { color: var(--accent); }
+.editor-container { display: flex; height: calc(100vh - 50px); width: 100vw; }
 
-.editor-container { display: flex; height: calc(100vh - 56px); }
-
-/* Left Panel - Premium Style */
+/* Side Panel - Slim & Modern */
 .left-panel { 
-    width: 300px; 
+    width: 260px; 
+    min-width: 260px;
     background: var(--panel-bg); 
-    border-right: 1px solid var(--border); 
-    padding: 20px; 
-    display: flex; 
-    flex-direction: column;
+    padding: 15px; 
+    border-right: 1px solid var(--border);
     overflow-y: auto;
 }
 
-.section h4 { font-size: 11px; color: #a0a0a0; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+.section h4 { font-size: 10px; color: #777; text-transform: uppercase; margin-bottom: 12px; }
 
-.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-.thumb { width: 100%; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
-.thumb:hover { border-color: var(--accent); transform: scale(1.03); }
+.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.thumb { width: 100%; border-radius: 6px; cursor: pointer; border: 2px solid transparent; }
+.thumb:hover { border-color: var(--accent); }
 
-.tool-group { display: flex; gap: 10px; margin-bottom: 25px; }
-.tool-btn { 
-    flex: 1; padding: 12px; background: #393a3b; border: none; 
-    border-radius: 8px; color: white; font-weight: 600; cursor: pointer; 
-}
-.tool-btn:hover { background: var(--accent); }
+.tool-group { display: flex; gap: 8px; margin-bottom: 20px; }
+.tool-btn { flex: 1; padding: 10px; background: #2d2d2e; border: 1px solid #3d3d3e; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; font-size: 13px; }
 
-/* Properties Panel */
-#objControls { background: #1e1e1f; padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
-.sm-btn { background: #393a3b; color: white; border: none; padding: 8px; border-radius: 6px; flex: 1; cursor: pointer; font-size: 12px; }
-
-/* Canvas Area - The Floating Board */
+/* கேன்வாஸ் ஏரியாவை முழுமையாகப் பயன்படுத்துதல் */
 .canvas-viewport { 
     flex-grow: 1; 
-    background: var(--bg-main); 
+    background: #000; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    padding: 40px; 
-    overflow: auto; 
-    position: relative;
+    overflow: hidden; /* ஸ்க்ரோலைத் தடுத்து ஃபிட் செய்கிறது */
+    padding: 20px;
 }
 
 .canvas-shadow-box { 
     background: white; 
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6); 
-    display: inline-block;
-    line-height: 0;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    display: block;
 }
 
-/* Mobile Adjustments */
+#objControls { background: #2d2d2e; padding: 12px; border-radius: 8px; margin-top: 10px; }
+.sm-btn { background: #3d3d3e; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; margin: 2px; cursor: pointer; font-size: 11px; }
+
+/* Mobile View */
 @media (max-width: 768px) {
     .editor-container { flex-direction: column; }
-    .left-panel { width: 100%; height: auto; order: 2; padding: 15px; }
-    .canvas-viewport { order: 1; height: 60vh; padding: 10px; }
+    .left-panel { width: 100%; height: auto; order: 2; padding: 10px; border-right: none; border-top: 1px solid var(--border); }
+    .canvas-viewport { order: 1; height: 55vh; padding: 10px; }
     .template-grid { display: flex; overflow-x: auto; }
-    .thumb { width: 80px; flex-shrink: 0; }
+    .thumb { width: 70px; }
 }
 
-.btn { padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; }
+.btn { padding: 6px 14px; border-radius: 4px; font-weight: 700; cursor: pointer; border: none; font-size: 13px; }
 .download-btn { background: var(--accent); color: white; }
-.share-btn { background: #25d366; color: white; margin-right: 8px; }
-.delete-btn { width: 100%; margin-top: 15px; background: #ff4d4f22; color: #ff4d4f; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; border: 1px solid #ff4d4f44; }
