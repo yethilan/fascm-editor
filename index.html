@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FASCM Studio - Pro Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
 </head>
 <body>
 
@@ -47,20 +49,39 @@
 
                 <div id="objControls" class="panel-section" style="display: none;">
                     <h4>Edit Properties</h4>
+                    
+                    <div class="font-box">
+                        <select id="fontFamily" class="font-select" onchange="changeFont(this.value)">
+                            <option value="Inter">Default (Inter)</option>
+                            <option value="Roboto" style="font-family: 'Roboto';">Roboto (Clean)</option>
+                            <option value="Montserrat" style="font-family: 'Montserrat';">Montserrat (Bold)</option>
+                            <option value="Playfair Display" style="font-family: 'Playfair Display';">Playfair (Elegant)</option>
+                            <option value="Dancing Script" style="font-family: 'Dancing Script';">Handwriting</option>
+                        </select>
+                    </div>
+
                     <div class="layer-btns">
                         <button class="sm-btn" onclick="bringForward()">Layer Up</button>
                         <button class="sm-btn" onclick="sendBackward()">Layer Down</button>
                     </div>
+
                     <div class="opacity-box">
                         <span>Opacity</span>
                         <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
                     </div>
-                    <input type="color" id="customColor" class="color-picker">
+
+                    <div id="palette" class="palette"></div>
+                    
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                        <span style="font-size: 12px; color: #a1a1aa;">Custom Color:</span>
+                        <input type="color" id="customColor" class="color-picker">
+                    </div>
+
                     <button class="delete-btn" onclick="deleteObj()">Remove Element</button>
                 </div>
             </aside>
 
-            <main class="viewport">
+            <main class="viewport" id="viewportArea">
                 <div id="canvas-wrapper" class="canvas-wrapper">
                     <canvas id="mainCanvas"></canvas>
                 </div>
