@@ -1,229 +1,136 @@
-let canvas;
-
-// BASE SIZE
-const BASE_WIDTH = 900;
-const BASE_HEIGHT = 600;
-
-
-// 🔐 PASSWORD
-function checkPassword() {
-  const pass = document.getElementById("passwordInput").value;
-
-  if (pass === "1234") {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-
-    initCanvas();
-  } else {
-    alert("Wrong Password");
-  }
-}
-
-
-// 🎯 INIT CANVAS
-function initCanvas() {
-  canvas = new fabric.Canvas('canvas');
-
-  resizeCanvas();
-
-  window.addEventListener("resize", resizeCanvas);
-
-  canvas.on("object:added", saveState);
-  canvas.on("object:modified", saveState);
-}
-
-
-// 📱 RESPONSIVE
-function resizeCanvas() {
-  const container = document.querySelector(".canvas-area");
-  const box = document.querySelector(".canvas-box");
-
-  const maxWidth = container.clientWidth - 20;
-  const maxHeight = container.clientHeight - 20;
-
-  const scale = Math.min(maxWidth / BASE_WIDTH, maxHeight / BASE_HEIGHT);
-
-  canvas.setWidth(BASE_WIDTH * scale);
-  canvas.setHeight(BASE_HEIGHT * scale);
-  canvas.setZoom(scale);
-
-  box.style.width = canvas.getWidth() + "px";
-  box.style.height = canvas.getHeight() + "px";
-
-  canvas.renderAll();
-}
-
-
-// ↩️ UNDO REDO
-let history = [];
+const ACCESS_CODE = "FASCM@2026"; 
+let undoStack = [];
 let redoStack = [];
 
-function saveState() {
-  redoStack = [];
-  history.push(JSON.stringify(canvas));
+const canvas = new fabric.Canvas('mainCanvas', { 
+    preserveObjectStacking: true,
+    backgroundColor: '#fff'
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    let userInput = prompt("Access Code:");
+    if (userInput === ACCESS_CODE) setTemplate('images/1.png');
+    else document.body.innerHTML = "Access Denied";
+});
+
+// Smart Fit Logic - படத்தைப் பொறுத்து கேன்வாஸ் அளவை மாற்றும்
+function setTemplate(url) {
+    fabric.Image.fromURL(url, (img) => {
+        const viewport = document.querySelector('.viewport');
+        const vW = viewport.clientWidth - 40;
+        const vH = viewport.clientHeight - 40;
+
+        const scale = Math.min(vW / img.width, vH / img.height, 1);
+
+        canvas.setWidth(img.width * scale);
+        canvas.setHeight(img.height * scale);
+        canvas.setZoom(scale);
+
+        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+            originX: 'left', originY: 'top', crossOrigin: 'anonymous'
+        });
+        saveHistory();
+    }, { crossOrigin: 'anonymous' });
+}
+
+// Image Add Fix - எப்போதுமே நடுவில் வரும்படி
+document.getElementById('upload').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = (f) => {
+        document.getElementById('cropBox').style.display = 'block';
+        const cropImg = document.getElementById('cropImg');
+        cropImg.src = f.target.result;
+        if(window.cropper) window.cropper.destroy();
+        window.cropper = new Cropper(cropImg, { viewMode: 1 });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+function confirmCrop() {
+    const data = window.cropper.getCroppedCanvas().toDataURL('image/png');
+    fabric.Image.fromURL(data, (img) => {
+        const z = canvas.getZoom();
+        img.scaleToWidth(200 / z);
+        img.set({ cornerSize: 10/z, cornerColor: '#8b3dff', cornerStyle: 'circle' });
+        canvas.add(img).centerObject(img).setActiveObject(img);
+        canvas.renderAll();
+        document.getElementById('cropBox').style.display = 'none';
+        saveHistory();
+    });
+}
+
+function addText() {
+    const z = canvas.getZoom();
+    const text = new fabric.Textbox('Double Tap', {
+        left: (canvas.width/2)/z, top: (canvas.height/2)/z,
+        width: 200/z, fontSize: 40/z, originX: 'center',
+        cornerSize: 10/z, cornerColor: '#8b3dff', cornerStyle: 'circle'
+    });
+    canvas.add(text).setActiveObject(text);
+    saveHistory();
+}
+
+// History
+function saveHistory() {
+    if (canvas.isUndoAction) return;
+    undoStack.push(JSON.stringify(canvas));
+    redoStack = [];
 }
 
 function undo() {
-  if (history.length > 0) {
-    redoStack.push(history.pop());
-    canvas.loadFromJSON(history[history.length - 1], canvas.renderAll.bind(canvas));
-  }
+    if (undoStack.length <= 1) return;
+    redoStack.push(undoStack.pop());
+    canvas.isUndoAction = true;
+    canvas.loadFromJSON(undoStack[undoStack.length-1], () => {
+        canvas.renderAll();
+        canvas.isUndoAction = false;
+    });
 }
 
 function redo() {
-  if (redoStack.length > 0) {
-    let state = redoStack.pop();
-    history.push(state);
-    canvas.loadFromJSON(state, canvas.renderAll.bind(canvas));
-  }
+    if (redoStack.length === 0) return;
+    const s = redoStack.pop();
+    undoStack.push(s);
+    canvas.isUndoAction = true;
+    canvas.loadFromJSON(s, () => {
+        canvas.renderAll();
+        canvas.isUndoAction = false;
+    });
 }
 
-
-// 🔤 TEXT
-function addText() {
-  const zoom = canvas.getZoom();
-
-  const text = new fabric.IText("Edit Text", {
-    left: (canvas.getWidth() / 2) / zoom,
-    top: (canvas.getHeight() / 2) / zoom,
-    fontSize: 40 / zoom,
-    fill: "#000",
-    originX: "center",
-    originY: "center"
-  });
-
-  canvas.add(text);
-}
-
-
-// 🔷 SHAPE
-function addRect() {
-  const zoom = canvas.getZoom();
-
-  const rect = new fabric.Rect({
-    width: 150 / zoom,
-    height: 100 / zoom,
-    fill: "blue",
-    left: (canvas.getWidth() / 2) / zoom,
-    top: (canvas.getHeight() / 2) / zoom,
-    originX: "center",
-    originY: "center"
-  });
-
-  canvas.add(rect);
-}
-
-
-// 🎨 COLOR
-function changeColor(color) {
-  const obj = canvas.getActiveObject();
-  if (obj) {
-    obj.set("fill", color);
-    canvas.renderAll();
-  }
-}
-
-
-// 🌫️ OPACITY
-function changeOpacity(val) {
-  const obj = canvas.getActiveObject();
-  if (obj) {
-    obj.set("opacity", val);
-    canvas.renderAll();
-  }
-}
-
-
-// ❌ DELETE
+// Object Editing
 function deleteObj() {
-  const obj = canvas.getActiveObject();
-  if (obj) canvas.remove(obj);
+    const a = canvas.getActiveObject();
+    if(a) { canvas.remove(a); canvas.requestRenderAll(); saveHistory(); }
+}
+function bringForward() { const a = canvas.getActiveObject(); if(a) { canvas.bringForward(a); canvas.renderAll(); } }
+function sendBackward() { const a = canvas.getActiveObject(); if(a) { canvas.sendBackwards(a); canvas.renderAll(); } }
+function changeOpacity(v) { const a = canvas.getActiveObject(); if(a) { a.set('opacity', parseFloat(v)); canvas.renderAll(); } }
+
+canvas.on('selection:created', () => document.getElementById('objControls').style.display = 'block');
+canvas.on('selection:cleared', () => document.getElementById('objControls').style.display = 'none');
+
+document.getElementById('customColor').oninput = (e) => {
+    const a = canvas.getActiveObject();
+    if(a) { a.set('fill', e.target.value); canvas.renderAll(); }
+};
+
+function downloadDesign() {
+    canvas.discardActiveObject().renderAll();
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL({ format: 'png', quality: 1 });
+    link.download = 'FASCM_Design.png';
+    link.click();
 }
 
-
-// 📥 EXPORT
-function exportPNG() {
-  const data = canvas.toDataURL({
-    format: "png",
-    quality: 1
-  });
-
-  const link = document.createElement("a");
-  link.href = data;
-  link.download = "design.png";
-  link.click();
+async function shareDesign() {
+    canvas.discardActiveObject().renderAll();
+    const b = await (await fetch(canvas.toDataURL())).blob();
+    const f = new File([b], 'design.png', { type: 'image/png' });
+    if (navigator.share) navigator.share({ files: [f] });
 }
 
-
-// 🎨 TEMPLATE 1
-function loadTemplate1() {
-  canvas.clear();
-
-  const bg = new fabric.Rect({
-    width: BASE_WIDTH,
-    height: BASE_HEIGHT,
-    fill: "#222"
-  });
-
-  const title = new fabric.IText("Event Title", {
-    left: BASE_WIDTH / 2,
-    top: 200,
-    fill: "#fff",
-    fontSize: 50,
-    originX: "center"
-  });
-
-  const sub = new fabric.IText("Subtitle here", {
-    left: BASE_WIDTH / 2,
-    top: 300,
-    fill: "#ccc",
-    fontSize: 25,
-    originX: "center"
-  });
-
-  canvas.add(bg, title, sub);
-}
-
-
-// 🎨 TEMPLATE 2
-function loadTemplate2() {
-  canvas.clear();
-
-  const bg = new fabric.Rect({
-    width: BASE_WIDTH,
-    height: BASE_HEIGHT,
-    fill: "#fff"
-  });
-
-  const box = new fabric.Rect({
-    width: 300,
-    height: BASE_HEIGHT,
-    fill: "#8b3dff",
-    left: 0,
-    top: 0
-  });
-
-  const text = new fabric.IText("College Fest", {
-    left: BASE_WIDTH / 2,
-    top: 250,
-    fill: "#000",
-    fontSize: 45,
-    originX: "center"
-  });
-
-  canvas.add(bg, box, text);
-}
-
-
-// 🔍 ZOOM
-canvas?.on?.('mouse:wheel', function(opt) {
-  let zoom = canvas.getZoom();
-  zoom *= 0.999 ** opt.e.deltaY;
-
-  zoom = Math.min(Math.max(zoom, 0.5), 3);
-
-  canvas.setZoom(zoom);
-
-  opt.e.preventDefault();
-  opt.e.stopPropagation();
+// Window Resize Fit
+window.addEventListener('resize', () => {
+    if(canvas.backgroundImage) setTemplate(canvas.backgroundImage._element.src);
 });
