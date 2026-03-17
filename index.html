@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FASCM Studio - White Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>FASCM Studio - Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&family=Hind+Madurai:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
@@ -44,43 +44,32 @@
                         <button class="tool-btn" onclick="addText()">+ Text</button>
                     </div>
                 </section>
-
-                <div id="objControls" class="panel-section" style="display: none;">
-                    <h4>Edit Properties</h4>
-                    
-                    <div class="prop-group">
-                        <label>Font Style</label>
-                        <select id="fontFamily" class="font-select" onchange="changeFont(this.value)">
-                            <option value="Inter">Default</option>
-                            <option value="Roboto">Roboto (Clean)</option>
-                            <option value="Montserrat">Montserrat (Bold)</option>
-                            <option value="Playfair Display">Playfair (Elegant)</option>
-                            <option value="Dancing Script">Handwriting</option>
-                        </select>
-                    </div>
-
-                    <div class="layer-btns">
-                        <button class="sm-btn" onclick="bringForward()">Layer Up</button>
-                        <button class="sm-btn" onclick="sendBackward()">Layer Down</button>
-                    </div>
-
-                    <div class="opacity-box">
-                        <span>Opacity</span>
-                        <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
-                    </div>
-
-                    <div id="palette" class="palette"></div>
-                    
-                    <div class="color-row">
-                        <span>Custom:</span>
-                        <input type="color" id="customColor" class="color-picker">
-                    </div>
-                    
-                    <button class="delete-btn" onclick="deleteObj()">Remove Element</button>
+                
+                <div id="sidebarControls" class="panel-section">
+                    <h4>Document Info</h4>
+                    <p style="font-size: 12px; color: #65676b;">Select an element to edit properties.</p>
                 </div>
             </aside>
 
             <main class="viewport" id="viewportArea">
+                <div id="floating-toolbar" class="floating-menu" style="display: none;">
+                    <select id="fontFamily" class="float-select" onchange="changeFont(this.value)">
+                        <option value="Inter">Default</option>
+                        <option value="Hind Madurai">Tamil (Hind)</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Playfair Display">Elegant</option>
+                        <option value="Dancing Script">Handwriting</option>
+                        <option value="Lato">Lato Bold</option>
+                    </select>
+                    <div class="v-line"></div>
+                    <input type="color" id="floatColor" class="float-color" title="Change Color">
+                    <div class="v-line"></div>
+                    <button class="float-btn" onclick="bringForward()" title="Layer Up">↑</button>
+                    <button class="float-btn" onclick="sendBackward()" title="Layer Down">↓</button>
+                    <div class="v-line"></div>
+                    <button class="float-btn del" onclick="deleteObj()" title="Delete">🗑</button>
+                </div>
+
                 <div id="canvas-wrapper" class="canvas-wrapper">
                     <canvas id="mainCanvas"></canvas>
                 </div>
