@@ -31,4 +31,67 @@ body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); ov
     .template-grid { display: flex; overflow-x: auto; padding-bottom: 10px; }
     .thumb { width: 80px; flex-shrink: 0; }
     .canvas-viewport { padding: 10px; align-items: flex-start; }
+    /* Mobile Optimization */
+@media screen and (max-width: 768px) {
+    body { overflow: auto; } /* மொபைலில் ஸ்க்ரோல் செய்ய அனுமதி */
+
+    .top-nav { height: 50px; padding: 0 10px; }
+    .brand { font-size: 18px; }
+
+    .editor-container { 
+        flex-direction: column; /* சைடுபாரை மேலே கொண்டு வரும் */
+        height: auto; 
+    }
+
+    .left-panel { 
+        width: 100%; 
+        height: auto; 
+        padding: 10px; 
+        border-right: none; 
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .template-grid { 
+        display: flex; 
+        overflow-x: auto; /* டெம்பளேட்களை பக்கவாட்டில் நகர்த்தலாம் */
+        gap: 10px; 
+        padding-bottom: 10px;
+    }
+
+    .thumb { 
+        width: 70px; 
+        height: 70px; 
+        flex-shrink: 0; 
+    }
+
+    .tool-group {
+        display: flex;
+        justify-content: space-around;
+        gap: 5px;
+    }
+
+    .tool-btn {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .canvas-viewport { 
+        padding: 5px; 
+        min-height: 400px; /* மொபைலில் கேன்வாஸ் தெரிய குறைந்தபட்ச உயரம் */
+        align-items: flex-start;
+        overflow: auto;
+    }
+
+    .canvas-shadow-box {
+        margin-top: 20px;
+        /* கேன்வாஸ் மிகச்சிறியதாகத் தெரிந்தால் இங்கிருந்து மேலாண்மை செய்யலாம் */
+    }
+
+    .modal-inner {
+        width: 95%;
+        padding: 10px;
+    }
+}
 }
