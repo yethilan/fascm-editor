@@ -1,88 +1,40 @@
-:root { 
-    --bg: #f3f4f6; --panel: #ffffff; --accent: #8b3dff; --border: #e5e7eb; --text: #111827; 
-}
+:root { --bg: #f3f4f6; --accent: #8b3dff; --border: #e5e7eb; --text: #111827; }
 
-body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow: hidden; }
+body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow: hidden; -webkit-font-smoothing: antialiased; }
 
-.top-nav { height: 60px; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+/* Sharp Pixel Fix */
+canvas { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+
+.login-container { height: 100vh; display: flex; justify-content: center; align-items: center; background: #f9fafb; }
+.login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+.login-card h2 { margin-bottom: 20px; font-weight: 800; }
+.input-group { display: flex; flex-direction: column; gap: 10px; }
+.input-group input { padding: 12px; border-radius: 10px; border: 1px solid var(--border); outline: none; }
+.login-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
+.top-nav { height: 60px; background: #fff; display: flex; justify-content: space-between; padding: 0 20px; align-items: center; border-bottom: 1px solid var(--border); }
 .brand { font-weight: 800; font-size: 20px; }
 .brand span { color: var(--accent); }
 
 .editor-main { display: flex; height: calc(100vh - 60px); }
-.sidebar { width: 280px; background: white; border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
-.panel-section h4 { font-size: 11px; color: #6b7280; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
+.sidebar { width: 260px; background: white; padding: 20px; border-right: 1px solid var(--border); overflow-y: auto; }
+.panel-section h4 { font-size: 11px; color: #6b7280; text-transform: uppercase; margin-bottom: 15px; }
 
-.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-.thumb { width: 100%; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.thumb { width: 100%; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
 .thumb:hover { border-color: var(--accent); }
 
-.tool-row { display: flex; gap: 10px; }
-.tool-btn { flex: 1; padding: 12px; background: #f9fafb; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; font-weight: 600; }
+.viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; padding: 40px; }
+.canvas-wrapper { box-shadow: 0 10px 50px rgba(0,0,0,0.1); border-radius: 4px; background: white; }
 
-.viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; overflow: auto; padding: 40px; }
-.canvas-wrapper { background: white; box-shadow: 0 20px 50px rgba(0,0,0,0.1); line-height: 0; }
-
-/* Floating Menu */
 .floating-menu {
-    position: absolute; z-index: 1000; background: white; padding: 6px 12px; border-radius: 10px;
-    display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border: 1px solid var(--border);
+    position: absolute; z-index: 1000; background: white; padding: 8px 12px; border-radius: 12px;
+    display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); border: 1px solid var(--border);
 }
-.float-select { border: none; font-weight: 600; font-size: 13px; background: #f3f4f6; padding: 5px; border-radius: 5px; }
-.v-line { width: 1px; height: 20px; background: #e5e7eb; }
-.palette-row { display: flex; gap: 4px; }
-.mini-swatch { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
-.float-btn { background: none; border: none; padding: 5px 8px; cursor: pointer; border-radius: 4px; }
-.float-btn:hover { background: #f3f4f6; }
-.float-btn.del { color: #ef4444; }
-.float-color { border: none; width: 25px; height: 25px; background: none; cursor: pointer; }
+.palette-row { display: flex; gap: 6px; }
+.mini-swatch { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
+.float-btn.del { color: #ff4d4d; background: #fff0f0; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-.btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
-.download-btn { background: var(--accent); color: white; }
-.nav-btn { background: #f3f4f6; border: none; padding: 8px 15px; border-radius: 8px; margin: 0 5px; cursor: pointer; }
-/* Existing root and layout stays same, adding Login Styles */
-.login-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f3f4f6;
-}
-
-.login-card {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
-}
-
-.login-card h2 { margin: 20px 0 10px; font-weight: 800; color: #111827; }
-.login-card p { color: #6b7280; font-size: 14px; margin-bottom: 30px; }
-
-.input-group { display: flex; flex-direction: column; gap: 15px; }
-.input-group input {
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    font-size: 16px;
-    outline: none;
-    transition: 0.2s;
-}
-.input-group input:focus { border-color: #8b3dff; box-shadow: 0 0 0 3px rgba(139, 61, 255, 0.1); }
-
-.login-btn {
-    background: #8b3dff;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.error { color: #ef4444; font-size: 12px; margin-top: 15px; font-weight: 600; }
+.btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; background: var(--accent); color: white; }
+.nav-btn { background: #f3f4f6; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+.error { color: #ef4444; font-size: 12px; margin-top: 10px; }
