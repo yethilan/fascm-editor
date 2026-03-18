@@ -3,86 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FASCM Studio - White Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>FASCM Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Montserrat:wght@700;800&family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
 </head>
 <body>
-
-    <div class="app-wrapper">
-        <nav class="top-nav">
-            <div class="brand">FASCM <span>Studio</span></div>
-            <div class="undo-redo">
-                <button class="nav-btn" onclick="undo()">↩</button>
-                <button class="nav-btn" onclick="redo()">↪</button>
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <p class="login-kicker">Secure Poster Studio</p>
+            <div class="brand brand-large">FASCM <span>Studio</span></div>
+            <h1>Create event posters across phone, laptop, and desktop.</h1>
+            <p class="login-copy">Your templates, canvas tools, and export actions are available after login.</p>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="Access Code" autocomplete="current-password">
+                <button class="login-btn" type="button" onclick="checkAuth()">Login</button>
             </div>
-            <div class="actions">
-                <button class="btn share-btn" onclick="shareDesign()">Share</button>
-                <button class="btn download-btn" onclick="downloadDesign()">Export</button>
+            <p id="error-msg" class="error" aria-live="polite"></p>
+        </div>
+    </div>
+
+    <div id="app-shell" class="app-wrapper hidden">
+        <nav class="top-nav">
+            <div class="nav-left">
+                <button class="menu-toggle" type="button" onclick="toggleSidebar()" aria-label="Toggle tools">
+                    ☰
+                </button>
+                <div>
+                    <div class="brand">FASCM <span>Studio</span></div>
+                    <p class="brand-subtitle">Poster and invitation editor</p>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <span class="status-pill">Touch Friendly</span>
+                <span class="status-pill muted">Auto Template Palette</span>
+            </div>
+
+            <div class="nav-right">
+                <div class="undo-redo">
+                    <button class="nav-btn" type="button" onclick="undo()" aria-label="Undo">↩</button>
+                    <button class="nav-btn" type="button" onclick="redo()" aria-label="Redo">↪</button>
+                </div>
+                <div class="actions">
+                    <button class="btn share-btn" type="button" onclick="shareDesign()">Share</button>
+                    <button class="btn download-btn" type="button" onclick="downloadDesign()">Export</button>
+                </div>
             </div>
         </nav>
 
         <div class="editor-main">
-            <aside class="sidebar">
+            <aside id="sidebar" class="sidebar">
+                <div class="sidebar-head">
+                    <div>
+                        <p class="panel-kicker">Workspace</p>
+                        <h2>Design Tools</h2>
+                    </div>
+                    <button class="sidebar-close" type="button" onclick="closeSidebar()" aria-label="Close tools">
+                        ×
+                    </button>
+                </div>
+
                 <section class="panel-section">
-                    <h4>Templates</h4>
+                    <div class="section-head">
+                        <h4>Templates</h4>
+                        <span class="section-meta">Pick a base style</span>
+                    </div>
                     <div class="template-grid">
-                        <img src="images/1.png" onclick="setTemplate(this.src)" class="thumb">
-                        <img src="images/2.png" onclick="setTemplate(this.src)" class="thumb">
-                        <img src="images/3.png" onclick="setTemplate(this.src)" class="thumb">
-                        <img src="images/4.png" onclick="setTemplate(this.src)" class="thumb">
+                        <button class="template-card" type="button" onclick="setTemplate('images/1.png', this)">
+                            <img src="images/1.png" class="thumb" alt="Template 1">
+                            <span>Royal Blue</span>
+                        </button>
+                        <button class="template-card" type="button" onclick="setTemplate('images/2.png', this)">
+                            <img src="images/2.png" class="thumb" alt="Template 2">
+                            <span>Crystal Aqua</span>
+                        </button>
+                        <button class="template-card" type="button" onclick="setTemplate('images/3.png', this)">
+                            <img src="images/3.png" class="thumb" alt="Template 3">
+                            <span>Black Gold</span>
+                        </button>
+                        <button class="template-card" type="button" onclick="setTemplate('images/4.png', this)">
+                            <img src="images/4.png" class="thumb" alt="Template 4">
+                            <span>Classic Maroon</span>
+                        </button>
                     </div>
                 </section>
 
                 <section class="panel-section">
-                    <h4>Add Elements</h4>
-                    <div class="tool-row">
-                        <button class="tool-btn" onclick="document.getElementById('upload').click()">+ Photo</button>
+                    <div class="section-head">
+                        <h4>Add Elements</h4>
+                        <span class="section-meta">Start designing fast</span>
+                    </div>
+                    <div class="tool-stack">
+                        <button class="tool-btn primary" type="button" onclick="document.getElementById('upload').click()">+ Add Photo</button>
                         <input type="file" id="upload" accept="image/*" hidden>
-                        <button class="tool-btn" onclick="addText()">+ Text</button>
+                        <button class="tool-btn" type="button" onclick="addText()">+ Add Text</button>
                     </div>
                 </section>
 
-                <div id="objControls" class="panel-section" style="display: none;">
-                    <h4>Edit Properties</h4>
-                    
-                    <div class="prop-group">
-                        <label>Font Style</label>
+                <div id="objControls" class="panel-section controls-card hidden-panel">
+                    <div class="section-head">
+                        <h4>Edit Properties</h4>
+                        <span id="selectionType" class="section-meta">Select an element</span>
+                    </div>
+
+                    <div id="fontGroup" class="prop-group">
+                        <label for="fontFamily">Font Style</label>
                         <select id="fontFamily" class="font-select" onchange="changeFont(this.value)">
-                            <option value="Inter">Default</option>
-                            <option value="Roboto">Roboto (Clean)</option>
-                            <option value="Montserrat">Montserrat (Bold)</option>
-                            <option value="Playfair Display">Playfair (Elegant)</option>
-                            <option value="Dancing Script">Handwriting</option>
+                            <option value="Manrope">Manrope</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Playfair Display">Playfair Display</option>
                         </select>
                     </div>
 
                     <div class="layer-btns">
-                        <button class="sm-btn" onclick="bringForward()">Layer Up</button>
-                        <button class="sm-btn" onclick="sendBackward()">Layer Down</button>
+                        <button class="sm-btn" type="button" onclick="bringForward()">Layer Up</button>
+                        <button class="sm-btn" type="button" onclick="sendBackward()">Layer Down</button>
                     </div>
 
                     <div class="opacity-box">
-                        <span>Opacity</span>
-                        <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
+                        <label for="opacitySlider">Opacity</label>
+                        <div class="opacity-inline">
+                            <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
+                            <span id="opacityValue">100%</span>
+                        </div>
                     </div>
 
-                    <div id="palette" class="palette"></div>
-                    
+                    <div>
+                        <label class="mini-label">Palette</label>
+                        <div id="palette" class="palette"></div>
+                    </div>
+
                     <div class="color-row">
-                        <span>Custom:</span>
+                        <label for="customColor">Custom Color</label>
                         <input type="color" id="customColor" class="color-picker">
                     </div>
-                    
-                    <button class="delete-btn" onclick="deleteObj()">Remove Element</button>
+
+                    <button class="delete-btn" type="button" onclick="deleteObj()">Remove Element</button>
                 </div>
             </aside>
 
             <main class="viewport" id="viewportArea">
-                <div id="canvas-wrapper" class="canvas-wrapper">
-                    <canvas id="mainCanvas"></canvas>
+                <div class="stage-shell">
+                    <div class="stage-header">
+                        <div>
+                            <p class="panel-kicker">Live Canvas</p>
+                            <h3>Poster Stage</h3>
+                        </div>
+                        <div class="stage-hints">
+                            <span>Tap template</span>
+                            <span>Add text</span>
+                            <span>Export PNG</span>
+                        </div>
+                    </div>
+
+                    <div class="canvas-stage">
+                        <div id="canvas-wrapper" class="canvas-wrapper">
+                            <canvas id="mainCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <p class="stage-note">Use the left tools to change template, add photos, and edit text from any device.</p>
                 </div>
             </main>
         </div>
