@@ -1,0 +1,30 @@
+[
+  {
+    "id": "tpl-1",
+    "name": "Royal Blue",
+    "src": "images/1.png",
+    "category": "poster",
+    "presetId": "poster-square"
+  },
+  {
+    "id": "tpl-2",
+    "name": "Crystal Aqua",
+    "src": "images/2.png",
+    "category": "poster",
+    "presetId": "poster-square"
+  },
+  {
+    "id": "tpl-3",
+    "name": "Black Gold",
+    "src": "images/3.png",
+    "category": "poster",
+    "presetId": "poster-square"
+  },
+  {
+    "id": "tpl-4",
+    "name": "Classic Maroon",
+    "src": "images/4.png",
+    "category": "poster",
+    "presetId": "poster-square"
+  }
+]

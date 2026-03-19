@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FASCM Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Montserrat:wght@700;800&family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arima+Madurai:wght@400;700&family=Baloo+Thambi+2:wght@400;700&family=Hind+Madurai:wght@400;600;700&family=Lora:wght@400;700&family=Manrope:wght@400;500;700;800&family=Merriweather:wght@400;700&family=Montserrat:wght@700;800&family=Mukta+Malar:wght@400;700&family=Noto+Sans+Tamil:wght@400;700&family=Noto+Serif+Tamil:wght@400;700&family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&family=Roboto:wght@400;700&family=Tiro+Tamil&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
@@ -17,8 +17,8 @@
             <h1>Create event posters across phone, laptop, and desktop.</h1>
             <p class="login-copy">Your templates, canvas tools, and export actions are available after login.</p>
             <div class="input-group">
-                <input type="password" id="passInput" placeholder="Access Code" autocomplete="current-password">
-                <button class="login-btn" type="button" onclick="checkAuth()">Login</button>
+                <input type="password" id="passInput" placeholder="Access Code" autocomplete="current-password" aria-label="Access Code">
+                <button class="login-btn" id="loginBtn" type="button">Login</button>
             </div>
             <p id="error-msg" class="error" aria-live="polite"></p>
         </div>
@@ -27,9 +27,7 @@
     <div id="app-shell" class="app-wrapper hidden">
         <nav class="top-nav">
             <div class="nav-left">
-                <button class="menu-toggle" type="button" onclick="toggleSidebar()" aria-label="Toggle tools">
-                    ☰
-                </button>
+                <button class="menu-toggle" type="button" onclick="toggleSidebar()" aria-label="Toggle tools">Menu</button>
                 <div>
                     <div class="brand">FASCM <span>Studio</span></div>
                     <p class="brand-subtitle">Poster and invitation editor</p>
@@ -38,17 +36,17 @@
 
             <div class="nav-center">
                 <span class="status-pill">Touch Friendly</span>
-                <span class="status-pill muted">Auto Template Palette</span>
+                <span class="status-pill muted">Autosave Enabled</span>
             </div>
 
             <div class="nav-right">
                 <div class="undo-redo">
-                    <button class="nav-btn" type="button" onclick="undo()" aria-label="Undo">↩</button>
-                    <button class="nav-btn" type="button" onclick="redo()" aria-label="Redo">↪</button>
+                    <button class="nav-btn" type="button" onclick="undo()" aria-label="Undo">Undo</button>
+                    <button class="nav-btn" type="button" onclick="redo()" aria-label="Redo">Redo</button>
                 </div>
                 <div class="actions">
                     <button class="btn share-btn" type="button" onclick="shareDesign()">Share</button>
-                    <button class="btn download-btn" type="button" onclick="downloadDesign()">Export</button>
+                    <button class="btn download-btn" type="button" onclick="downloadDesign('png')">Export PNG</button>
                 </div>
             </div>
         </nav>
@@ -60,34 +58,38 @@
                         <p class="panel-kicker">Workspace</p>
                         <h2>Design Tools</h2>
                     </div>
-                    <button class="sidebar-close" type="button" onclick="closeSidebar()" aria-label="Close tools">
-                        ×
-                    </button>
+                    <button class="sidebar-close" type="button" onclick="closeSidebar()" aria-label="Close tools">Close</button>
                 </div>
 
                 <section class="panel-section">
                     <div class="section-head">
+                        <h4>Design Format</h4>
+                        <span class="section-meta">Poster, certificate, invitation</span>
+                    </div>
+                    <div id="presetGrid" class="preset-grid">
+                        <button class="preset-card is-active" type="button" data-preset-id="poster-square">Poster</button>
+                        <button class="preset-card" type="button" data-preset-id="certificate-landscape">Certificate</button>
+                        <button class="preset-card" type="button" data-preset-id="invitation-portrait">Invitation</button>
+                        <button class="preset-card" type="button" data-preset-id="ppt-widescreen">PPT</button>
+                        <button class="preset-card" type="button" data-preset-id="word-a4">Word</button>
+                    </div>
+                </section>
+
+                <section id="templateSection" class="panel-section">
+                    <div class="section-head">
                         <h4>Templates</h4>
-                        <span class="section-meta">Pick a base style</span>
+                        <span class="section-meta">GitHub-ready manifest</span>
                     </div>
-                    <div class="template-grid">
-                        <button class="template-card" type="button" onclick="setTemplate('images/1.png', this)">
-                            <img src="images/1.png" class="thumb" alt="Template 1">
-                            <span>Royal Blue</span>
-                        </button>
-                        <button class="template-card" type="button" onclick="setTemplate('images/2.png', this)">
-                            <img src="images/2.png" class="thumb" alt="Template 2">
-                            <span>Crystal Aqua</span>
-                        </button>
-                        <button class="template-card" type="button" onclick="setTemplate('images/3.png', this)">
-                            <img src="images/3.png" class="thumb" alt="Template 3">
-                            <span>Black Gold</span>
-                        </button>
-                        <button class="template-card" type="button" onclick="setTemplate('images/4.png', this)">
-                            <img src="images/4.png" class="thumb" alt="Template 4">
-                            <span>Classic Maroon</span>
-                        </button>
+                    <div id="templateFilterBar" class="filter-bar">
+                        <button class="filter-chip is-active" type="button" data-category="all">All</button>
+                        <button class="filter-chip" type="button" data-category="poster">Poster</button>
+                        <button class="filter-chip" type="button" data-category="certificate">Certificate</button>
+                        <button class="filter-chip" type="button" data-category="invitation">Invitation</button>
+                        <button class="filter-chip" type="button" data-category="ppt">PPT</button>
+                        <button class="filter-chip" type="button" data-category="word">Word</button>
                     </div>
+                    <p id="templateSectionNote" class="empty-copy hidden">Poster format shows the 4 built-in templates. Certificate, invitation, PPT, and Word open as blank editable boards.</p>
+                    <div id="templateGrid" class="template-grid"></div>
                 </section>
 
                 <section class="panel-section">
@@ -102,6 +104,53 @@
                     </div>
                 </section>
 
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Shapes</h4>
+                        <span class="section-meta">Canva-style building blocks</span>
+                    </div>
+                    <div class="tool-grid">
+                        <button class="tool-btn" type="button" onclick="addShape('rect')">Rectangle</button>
+                        <button class="tool-btn" type="button" onclick="addShape('circle')">Circle</button>
+                        <button class="tool-btn" type="button" onclick="addShape('line')">Line</button>
+                        <button class="tool-btn" type="button" onclick="addShape('panel')">Panel</button>
+                    </div>
+                </section>
+
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Quick Blocks</h4>
+                        <span class="section-meta">Starter content for every format</span>
+                    </div>
+                    <p class="helper-copy">Smart starter follows the current format and drops ready-to-edit content on the board.</p>
+                    <div class="tool-grid">
+                        <button class="tool-btn primary" type="button" onclick="insertSmartStarter()">Smart Starter</button>
+                        <button class="tool-btn" type="button" onclick="addTitleBlock()">Title Block</button>
+                        <button class="tool-btn" type="button" onclick="addDetailsBlock()">Details Block</button>
+                        <button class="tool-btn" type="button" onclick="addContentPanel()">Content Panel</button>
+                    </div>
+                </section>
+
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Canvas Tools</h4>
+                        <span class="section-meta">Zoom and guides</span>
+                    </div>
+                    <div class="zoom-panel">
+                        <button class="sm-btn" type="button" onclick="adjustZoom(-0.1)">-</button>
+                        <input type="range" id="zoomSlider" min="0.1" max="2" step="0.05" value="1">
+                        <button class="sm-btn" type="button" onclick="adjustZoom(0.1)">+</button>
+                    </div>
+                    <div class="zoom-readout">
+                        <span id="zoomValue">100%</span>
+                        <button class="link-btn" type="button" onclick="fitCanvasToStage()">Fit to screen</button>
+                    </div>
+                    <div class="tool-stack compact-stack">
+                        <button class="tool-btn" type="button" onclick="toggleGuides()">Toggle Guides</button>
+                        <button class="tool-btn" type="button" onclick="duplicatePage()">Duplicate Page</button>
+                    </div>
+                </section>
+
                 <div id="objControls" class="panel-section controls-card hidden-panel">
                     <div class="section-head">
                         <h4>Edit Properties</h4>
@@ -110,12 +159,83 @@
 
                     <div id="fontGroup" class="prop-group">
                         <label for="fontFamily">Font Style</label>
-                        <select id="fontFamily" class="font-select" onchange="changeFont(this.value)">
-                            <option value="Manrope">Manrope</option>
-                            <option value="Roboto">Roboto</option>
-                            <option value="Montserrat">Montserrat</option>
-                            <option value="Playfair Display">Playfair Display</option>
+                        <select id="fontFamily" class="font-select">
+                            <optgroup label="English Fonts">
+                                <option value="Manrope">Manrope</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Montserrat">Montserrat</option>
+                                <option value="Playfair Display">Playfair Display</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Garamond">Garamond</option>
+                                <option value="Palatino Linotype">Palatino Linotype</option>
+                                <option value="Cambria">Cambria</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Tahoma">Tahoma</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Merriweather">Merriweather</option>
+                                <option value="Lora">Lora</option>
+                                <option value="Poppins">Poppins</option>
+                                <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                            </optgroup>
+                            <optgroup label="Tamil Fonts">
+                                <option value="'Noto Sans Tamil', sans-serif">Noto Sans Tamil</option>
+                                <option value="'Noto Serif Tamil', serif">Noto Serif Tamil</option>
+                                <option value="'Mukta Malar', sans-serif">Mukta Malar</option>
+                                <option value="'Baloo Thambi 2', sans-serif">Baloo Thambi 2</option>
+                                <option value="'Arima Madurai', sans-serif">Arima Madurai</option>
+                                <option value="'Hind Madurai', sans-serif">Hind Madurai</option>
+                                <option value="'Tiro Tamil', serif">Tiro Tamil</option>
+                            </optgroup>
                         </select>
+                    </div>
+
+                    <div id="textSizeGroup" class="prop-group">
+                        <label for="fontSizeSlider">Font Size</label>
+                        <div class="dual-input-row">
+                            <input type="range" id="fontSizeSlider" min="14" max="140" step="1" value="40">
+                            <input type="number" id="fontSizeNumber" min="14" max="140" step="1" value="40">
+                        </div>
+                    </div>
+
+                    <div id="textStyleGroup" class="prop-group">
+                        <label>Text Style</label>
+                        <div class="toggle-row">
+                            <button id="boldBtn" class="sm-btn" type="button">Bold</button>
+                            <button id="italicBtn" class="sm-btn" type="button">Italic</button>
+                        </div>
+                    </div>
+
+                    <div id="alignGroup" class="prop-group">
+                        <label>Alignment</label>
+                        <div class="toggle-row">
+                            <button class="sm-btn align-btn" data-align="left" type="button">Left</button>
+                            <button class="sm-btn align-btn" data-align="center" type="button">Center</button>
+                            <button class="sm-btn align-btn" data-align="right" type="button">Right</button>
+                        </div>
+                    </div>
+
+                    <div id="strokeGroup" class="prop-group">
+                        <label>Stroke</label>
+                        <div class="inline-setting">
+                            <input type="color" id="strokeColor" class="color-picker" value="#ffffff">
+                            <input type="range" id="strokeWidth" min="0" max="8" step="0.5" value="0">
+                        </div>
+                    </div>
+
+                    <div id="shadowGroup" class="prop-group">
+                        <label>Shadow</label>
+                        <div class="inline-setting">
+                            <input type="color" id="shadowColor" class="color-picker" value="#000000">
+                            <input type="range" id="shadowBlur" min="0" max="40" step="1" value="0">
+                        </div>
+                    </div>
+
+                    <div class="layer-btns">
+                        <button class="sm-btn" type="button" onclick="duplicateObj()">Duplicate</button>
+                        <button id="lockBtn" class="sm-btn" type="button" onclick="toggleLock()">Lock</button>
                     </div>
 
                     <div class="layer-btns">
@@ -123,10 +243,26 @@
                         <button class="sm-btn" type="button" onclick="sendBackward()">Layer Down</button>
                     </div>
 
+                    <div id="imageTools" class="prop-group hidden-panel">
+                        <label>Image Crop</label>
+                        <div class="layer-btns">
+                            <button id="cropBtn" class="sm-btn" type="button" onclick="startCropMode()">Crop</button>
+                            <button id="replaceBtn" class="sm-btn" type="button" onclick="prepareReplaceUpload()">Replace</button>
+                        </div>
+                    </div>
+
+                    <div id="cropActions" class="prop-group hidden-panel">
+                        <label>Crop Actions</label>
+                        <div class="layer-btns">
+                            <button class="sm-btn" type="button" onclick="applyCrop()">Apply</button>
+                            <button class="sm-btn" type="button" onclick="cancelCrop()">Cancel</button>
+                        </div>
+                    </div>
+
                     <div class="opacity-box">
                         <label for="opacitySlider">Opacity</label>
                         <div class="opacity-inline">
-                            <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="1" oninput="changeOpacity(this.value)">
+                            <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="1">
                             <span id="opacityValue">100%</span>
                         </div>
                     </div>
@@ -143,6 +279,38 @@
 
                     <button class="delete-btn" type="button" onclick="deleteObj()">Remove Element</button>
                 </div>
+
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Layers</h4>
+                        <span class="section-meta">Select and manage</span>
+                    </div>
+                    <div id="layersList" class="layers-list">
+                        <p class="empty-copy">No layers yet.</p>
+                    </div>
+                </section>
+
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Export</h4>
+                        <span class="section-meta">Multiple formats</span>
+                    </div>
+                    <div class="tool-stack compact-stack">
+                        <button class="tool-btn" type="button" onclick="downloadDesign('png')">Download PNG</button>
+                        <button class="tool-btn" type="button" onclick="downloadDesign('jpg')">Download JPG</button>
+                        <button class="tool-btn" type="button" onclick="downloadDesign('json')">Download JSON</button>
+                    </div>
+                </section>
+
+                <section class="panel-section">
+                    <div class="section-head">
+                        <h4>Recent Designs</h4>
+                        <span class="section-meta">Autosaved locally</span>
+                    </div>
+                    <div id="recentDesigns" class="recent-list">
+                        <p class="empty-copy">Autosaved designs will appear here.</p>
+                    </div>
+                </section>
             </aside>
 
             <main class="viewport" id="viewportArea">
@@ -150,22 +318,26 @@
                     <div class="stage-header">
                         <div>
                             <p class="panel-kicker">Live Canvas</p>
-                            <h3>Poster Stage</h3>
+                            <h3 id="stageTitle">Poster Stage</h3>
                         </div>
                         <div class="stage-hints">
-                            <span>Tap template</span>
-                            <span>Add text</span>
-                            <span>Export PNG</span>
+                            <span>Templates</span>
+                            <span>Crop photos</span>
+                            <span>Autosave</span>
                         </div>
                     </div>
 
                     <div class="canvas-stage">
+                        <div class="canvas-stage-meta">
+                            <span id="activeTemplateName" class="meta-pill">Royal Blue</span>
+                            <span id="autosaveStatus" class="meta-pill muted">Ready</span>
+                        </div>
                         <div id="canvas-wrapper" class="canvas-wrapper">
                             <canvas id="mainCanvas"></canvas>
                         </div>
                     </div>
 
-                    <p class="stage-note">Use the left tools to change template, add photos, and edit text from any device.</p>
+                    <p class="stage-note">Use the tools to manage templates, switch formats, crop photos, style text, and build poster, certificate, invitation, PPT, or Word-style layouts from one editor.</p>
                 </div>
             </main>
         </div>
